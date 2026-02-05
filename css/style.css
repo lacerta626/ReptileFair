@@ -1,0 +1,10 @@
+.main_visual{width: 100%; height: 100vh; overflow: hidden;}
+.bg_image{position: absolute;top: 0;left: 0;width: 100%;height: 100%;z-index: 1;}
+.bg_image img{width: 100%; height: 100%; object-fit: cover;}
+.overlay{position: absolute;top: 0;left: 0;width: 100%;height: 100%;background: rgba(0,0,0,0.4);opacity: 0;z-index: 2;}
+.main_text{position: relative; z-index: 3; height: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff;}
+.main_text h1{font-size: clamp(3.5rem, 8vw, 6.5rem);font-weight: 900;letter-spacing: -0.02em;line-height: 1.1;text-transform: uppercase;}
+.main_text p{margin-top: 20px; font-size: clamp(1rem, 2.5vw, 2rem); font-weight: 500; color: rgba(255,255,255,0.8); line-height: 1.6;}
+/* letter Scattering to center */
+.convergence-target {display: flex;justify-content: center;flex-wrap: nowrap;perspective: 1000px;}
+.convergence-target span {display: inline-block;white-space: pre;will-change: transform, opacity;}
