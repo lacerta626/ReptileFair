@@ -88,7 +88,7 @@ window.addEventListener('load', () => {
 
     /** 4. 공통 섹션 리빌 (Reveal) : 나중에 추가될 섹션들 자동 적용 **/
     // HTML에 <section class="reveal"> 형태로 사용 시 작동
-    const reveals = document.querySelectorAll('.s_info, .reveal'); // s_info와 나중에 추가될 reveal 섹션들
+    const reveals = document.querySelectorAll('.s_info, .reveal');
     reveals.forEach((section) => {
         gsap.fromTo(section, 
             { opacity: 0, y: 50 }, 
@@ -141,4 +141,46 @@ const icon=card.querySelector('.magnetic_icon');
 if(icon)gsap.to(icon,{x:0,y:0,duration:.5});
 });
 
+});
+/** 7. 불규칙한 오비탈 파트너 효과 **/
+window.addEventListener('load', () => {
+    const subPartners = document.querySelectorAll('.sub_partner');
+    const radius = 275; // 회전 반경
+
+    subPartners.forEach((item, i) => {
+        // 1. 각 아이템의 개별 회전축 역할을 할 객체 생성
+        const rotationData = { angle: (i / subPartners.length) * (Math.PI * 2) };
+
+        // 2. 개별적으로 빨라졌다 느려졌다 하는 무한 루프 애니메이션
+        function animatePartner() {
+            // 랜덤한 속도와 지속 시간 생성
+            const randomDuration = gsap.utils.random(2, 5); // 3~6초 사이로 가속/감속 주기 변경
+            const randomAngleAdd = gsap.utils.random(Math.PI / 4, Math.PI / 4); // 움직임의 크기 랜덤
+
+            gsap.to(rotationData, {
+                angle: `+=${randomAngleAdd}`, 
+                duration: randomDuration,
+                ease: "power2.inOut", // 빨라졌다가 서서히 느려지는 느낌
+                onUpdate: () => {
+                    // 계산된 각도로 위치 업데이트
+                    const x = Math.cos(rotationData.angle) * radius;
+                    const y = Math.sin(rotationData.angle) * radius;
+                    gsap.set(item, { x: x, y: y });
+                },
+                onComplete: animatePartner // 애니메이션이 끝나면 새로운 랜덤 값으로 다시 시작
+            });
+        }
+
+        // 3. 미세하게 떠다니는(Floating) 흔들림 효과 추가
+        gsap.to(item, {
+            y: "+=20",
+            x: "+=15",
+            duration: gsap.utils.random(2, 4),
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+
+        animatePartner();
+    });
 });
