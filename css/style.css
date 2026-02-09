@@ -93,15 +93,46 @@
     opacity: 0.5;animation: scan 2.5s linear infinite
 }
 @keyframes scan{0%{top:0}100%{top:100%}}
+.s_ticketing { padding: 100px 0; background: #0a0a0a; color: #fff; }
+.ticketing_container { display: flex; gap: 50px; align-items: center; justify-content: space-between; margin-top: 50px; }
+
+/* 카운트다운 */
+.countdown_box { flex: 1; }
+.countdown_box h3 { font-size: 1.2rem; color: #7aff8a; margin-bottom: 20px; letter-spacing: 2px; }
+.timer { display: flex; gap: 20px; }
+.time_unit { text-align: center; }
+.time_unit span { font-size: 4rem; font-weight: 800; font-family: 'Arial Black', sans-serif; display: block; }
+.time_unit p { font-size: 0.8rem; color: #888; margin-top: 5px; }
+
+/* 프로그레스 바 */
+.status_box { flex: 1; background: #151515; padding: 40px; border-radius: 20px; border: 1px solid #333; }
+.status_info { display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold; }
+.percent_text { color: #7aff8a; }
+.progress_bar { width: 100%; height: 10px; background: #333; border-radius: 5px; overflow: hidden; margin-bottom: 20px; }
+.progress_fill { width: 0%; height: 100%; background: linear-gradient(90deg, #7aff8a, #2ecc71); }
+.status_msg { font-size: 0.9rem; color: #bbb; margin-bottom: 30px; }
+
+/* 예매 버튼 */
+.btn_ticket { 
+    display: inline-block; width: 100%; padding: 15px; background: #7aff8a; color: #000; 
+    text-align: center; font-weight: bold; text-decoration: none; border-radius: 10px;
+    transition: 0.3s;
+}
+.btn_ticket:hover { background: #fff; transform: translateY(-5px); }
 
 /* responsive */
 @media(max-width:1024px){
-.card_container{grid-template-columns:repeat(2,1fr)}
-.info_main_layout{flex-direction:column}
-.info_image_area{width:100%;height:500px}
+    .card_container{grid-template-columns:repeat(2,1fr)}
+    .info_main_layout{flex-direction:column}
+    .info_image_area{width:100%;height:500px}
 }
 @media(max-width:768px){
-.card_container{grid-template-columns:1fr}
-.card_item{height:500px}
-.main_text h1{font-size:clamp(2.5rem,10vw,4rem)}
+    .card_container{grid-template-columns:1fr}
+    .card_item{height:500px}
+    .main_text h1{font-size:clamp(2.5rem,10vw,4rem)}
+}
+
+@media (max-width: 768px) {
+    .ticketing_container { flex-direction: column; }
+    .timer span { font-size: 2.5rem; }
 }

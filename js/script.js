@@ -184,3 +184,44 @@ window.addEventListener('load', () => {
         animatePartner();
     });
 });
+/** 8. 카운트다운 & 티켓 상태 애니메이션 **/
+// 1) 카운트다운 로직
+const targetDate = new Date("May 23, 2026 10:00:00").getTime();
+
+function updateCountdown() {
+    const now = new Date().getTime();
+    const gap = targetDate - now;
+
+    const d = Math.floor(gap / (1000 * 60 * 60 * 24));
+    const h = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const m = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
+    const s = Math.floor((gap % (1000 * 60)) / 1000);
+
+    document.getElementById("days").innerText = d < 10 ? "0" + d : d;
+    document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
+    document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
+    document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
+}
+setInterval(updateCountdown, 1000);
+
+// 2) GSAP ScrollTrigger 애니메이션 (숫자 카운팅 + 프로그레스 바)
+gsap.to(".progress_fill", {
+    scrollTrigger: {
+        trigger: ".s_ticketing",
+        start: "top 80%",
+    },
+    width: "85%", // 목표 수치
+    duration: 2,
+    ease: "power4.out"
+});
+
+gsap.from(".counter", {
+    scrollTrigger: {
+        trigger: ".s_ticketing",
+        start: "top 80%",
+    },
+    textContent: 0,
+    duration: 2,
+    snap: { textContent: 1 }, // 정수 단위로 카운트
+    stagger: 1,
+});
