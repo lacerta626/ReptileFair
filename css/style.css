@@ -6,11 +6,9 @@
 .main_text{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#fff}
 .main_text h1{font-size:clamp(3.5rem,8vw,6.5rem);font-weight:900;letter-spacing:-.02em;line-height:1.1;text-transform:uppercase}
 .main_text p{margin-top:20px;font-size:clamp(1rem,2.5vw,2rem);font-weight:500;color:rgba(255,255,255,.8);line-height:1.6}
-
 /* letter scattering */
 .convergence-target{display:flex;justify-content:center;perspective:1000px}
 .convergence-target span{display:inline-block;white-space:pre;will-change:transform,opacity}
-
 /* moving text */
 .moving_text{width:100%;overflow:hidden;background:#d2ff00;padding:15px 0;display:flex;align-items:center}
 .marquee_wrapper{display:flex;white-space:nowrap}
@@ -62,27 +60,23 @@
 .card_item:hover .spotlight{opacity:1}
 .shimmer-title{background:linear-gradient(90deg,#333,#d2ff00,#333);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 3s linear infinite}
 
-/* orbital container */
+/* s_orbital */
 .orbital_container{position:relative;width:100%;height:700px;display:flex;justify-content:center;align-items:center;overflow:hidden}
-
 /* main partner */
 .main_partner{position:relative;width:180px;height:180px;z-index:10;background:#000;border:2px solid #d2ff00;border-radius:50%;display:flex;justify-content:center;align-items:center;padding:20px}
 .main_partner img{width:100%;object-fit:contain}
-
 /* pulse ring */
 .pulse_ring{position:absolute;width:100%;height:100%;border:2px solid #d2ff00;border-radius:50%;animation:pulse 2s infinite}
-
-
 /* orbit wrap */
 .orbit_wrap{position:absolute;width:550px;height:550px;border-radius:50%;display:flex;justify-content:center;align-items:center}
 .orbit_line {position: absolute;width: 550px; height: 550px;border: 1px solid rgba(210, 255, 0, 0.05);border-radius: 50%}
 /* sub partner */
 .sub_partner{position:absolute;width:80px;height:80px;background:#111;border:1px solid #333;border-radius:50%;display:flex;justify-content:center;align-items:center;padding:15px;transition:.3s}
-
 .sub_partner:hover { border-color: #d2ff00; background: #000; }
 .sub_partner img { width: 100%; filter: grayscale(1); transition: 0.3s; }
 .sub_partner:hover img { filter: grayscale(0); }
 
+/* s_ticketing */
 /* countdown */
 .countdown_box { flex: 1; }
 .countdown_box h3 { font-size: 1.2rem; color: #7aff8a; margin-bottom: 20px; letter-spacing: 2px; }
@@ -90,7 +84,6 @@
 .time_unit { text-align: center; }
 .time_unit span { font-size: 4rem; font-weight: 800; font-family: 'Arial Black', sans-serif; display: block; }
 .time_unit p { font-size: 0.8rem; color: #888; margin-top: 5px; }
-
 /* progress bar */
 .status_box { flex: 1; background: #151515; padding: 40px; border-radius: 20px; border: 1px solid #333; }
 .status_info { display: flex; justify-content: space-between; margin-bottom: 15px; font-weight: bold; }
@@ -98,7 +91,6 @@
 .progress_bar { width: 100%; height: 10px; background: #333; border-radius: 5px; overflow: hidden; margin-bottom: 20px; }
 .progress_fill { width: 0%; height: 100%; background: linear-gradient(90deg, #7aff8a, #2ecc71); }
 .status_msg { font-size: 0.9rem; color: #bbb; margin-bottom: 30px; }
-
 /* ticket btn */
 .btn_ticket { display: inline-block; width: 100%; padding: 15px; background: #7aff8a; color: #000; text-align: center; font-weight: bold; text-decoration: none; border-radius: 10px;transition: 0.3s;}
 .btn_ticket:hover { background: #fff; transform: translateY(-5px); }
@@ -114,7 +106,7 @@
 .s_ticketing { padding: 100px 0; background: #0a0a0a; color: #fff; }
 .ticketing_container { display: flex; gap: 50px; align-items: center; justify-content: space-between; margin-top: 50px; }
 
-/* responsive */
+/* responsive **************************************************/
 @media(max-width:1024px){
     .card_container{grid-template-columns:repeat(2,1fr)}
     .info_main_layout{flex-direction:column}

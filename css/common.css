@@ -32,5 +32,5 @@ footer{background:#111;padding:80px 0 40px;border-top:1px solid #333;font-family
 .f_info p{font-size:.95rem;color:#888;margin-bottom:10px;line-height:1.8}.f_policy{display:flex;gap:30px}.f_policy a{font-size:.95rem;color:#aaa;transition:.3s}.f_policy a:hover,.f_policy a strong{color:#fff}.f_policy strong{font-weight:700}
 .f_bottom{margin-top:60px;text-align:center}.copyright{font-size:.85rem;color:#555;letter-spacing:1px;text-transform:uppercase}
 
-/* responsive */
+/* responsive ***************************************************/
 @media(max-width:768px){.f_top{flex-direction:column;gap:30px;text-align:center}.f_mid{flex-direction:column;align-items:center;text-align:center}.f_policy{justify-content:center;gap:15px}}
