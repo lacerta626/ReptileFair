@@ -107,3 +107,38 @@ window.addEventListener('load', () => {
         );
     });
 });
+/* card interaction */
+const iCards=document.querySelectorAll('.i_card');
+
+iCards.forEach(card=>{
+
+card.addEventListener('mousemove',e=>{
+const rect=card.getBoundingClientRect();
+const x=e.clientX-rect.left;
+const y=e.clientY-rect.top;
+
+card.style.setProperty('--x',`${x}px`);
+card.style.setProperty('--y',`${y}px`);
+
+const centerX=rect.width/2;
+const centerY=rect.height/2;
+const rotateX=(y-centerY)/10;
+const rotateY=(centerX-x)/10;
+
+gsap.to(card,{rotateX,rotateY,duration:.5,ease:"power2.out"});
+
+const icon=card.querySelector('.magnetic_icon');
+if(icon){
+const mX=(x-centerX)*.15;
+const mY=(y-centerY)*.15;
+gsap.to(icon,{x:mX,y:mY,duration:.3});
+}
+});
+
+card.addEventListener('mouseleave',()=>{
+gsap.to(card,{rotateX:0,rotateY:0,duration:.8,ease:"elastic.out(1,0.3)"});
+const icon=card.querySelector('.magnetic_icon');
+if(icon)gsap.to(icon,{x:0,y:0,duration:.5});
+});
+
+});
