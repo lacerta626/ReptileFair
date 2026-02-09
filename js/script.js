@@ -86,3 +86,27 @@ setInterval(updateCountdown, 1000);
 
 gsap.to(".progress_fill", { scrollTrigger: { trigger: ".s_ticketing", start: "top 80%" }, width: "85%", duration: 2, ease: "power4.out" });
 gsap.from(".counter", { scrollTrigger: { trigger: ".s_ticketing", start: "top 80%" }, textContent: 0, duration: 4, snap: { textContent: 1 }, stagger: 1 });
+
+/* stats count animation */
+const stats = document.querySelectorAll('.stat_num')
+
+stats.forEach(stat => {
+    const target = parseInt(stat.getAttribute('data-target'))
+
+    gsap.to(stat, {
+        scrollTrigger: {
+            trigger: '.s_stats',
+            start: 'top 85%',
+            toggleActions: 'play none none none'
+        },
+        innerText: target,
+        duration: 2.5,
+        snap: { innerText: 1 },
+        ease: 'power3.out',
+        onUpdate: function () {
+            if (target === 240000) {
+                stat.innerText = Math.floor(this.targets()[0].innerText / 1000)
+            }
+        }
+    })
+})

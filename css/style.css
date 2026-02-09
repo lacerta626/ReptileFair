@@ -95,6 +95,20 @@
 .btn_ticket { display: inline-block; width: 100%; padding: 15px; background: #7aff8a; color: #000; text-align: center; font-weight: bold; text-decoration: none; border-radius: 10px;transition: 0.3s;}
 .btn_ticket:hover { background: #fff; transform: translateY(-5px); }
 
+/* s_stats */
+/* stats section */
+.s_stats{padding:80px 0;background:#000;border-top:1px solid #222;border-bottom:1px solid #222}
+/* stats container */
+.stats_container{display:flex;justify-content:space-around;align-items:center;text-align:center;gap:20px}
+/* stat item */
+.stat_item{flex:1}
+/* stat number */
+.stat_num{display:block;font-size:4rem;font-weight:800;color:#7aff8a;font-family:'Arial Black',sans-serif;line-height:1;margin-bottom:10px}
+/* stat number unit (optional) */
+.stat_item:nth-child(2) .stat_num::after{content:'K';font-size:2rem;margin-left:2px}
+/* stat label */
+.stat_label{font-size:1rem;color:#888;text-transform:uppercase;letter-spacing:2px}
+
 /* animation */
 @keyframes pulse{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.5);opacity:0}}
 @keyframes shimmer{to{background-position:200% center}}
@@ -118,4 +132,6 @@
     .main_text h1{font-size:clamp(2.5rem,10vw,4rem)}
     .ticketing_container { flex-direction: column; }
     .timer span { font-size: 2.5rem; }
+    .stats_container{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+    .stat_num{font-size:2.5rem}
 }
