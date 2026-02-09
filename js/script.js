@@ -1,5 +1,15 @@
 // GSAP 플러그인 등록
 gsap.registerPlugin(ScrollTrigger);
+// 헤더 배경 변경 스크립트
+gsap.to("header", {
+    scrollTrigger: {
+        trigger: ".main_visual", 
+        start: "top top", 
+        end: "bottom top", 
+        onEnter: () => document.querySelector("header").classList.add("active"),
+        onLeaveBack: () => document.querySelector("header").classList.remove("active"),
+    }
+});
 
 window.addEventListener('load', () => {
     
@@ -42,7 +52,7 @@ window.addEventListener('load', () => {
     if (marqueeWrapper) {
         gsap.to(marqueeWrapper, {
             xPercent: -50,
-            duration: 15,
+            duration: 30,
             ease: "none",
             repeat: -1
         });

@@ -8,9 +8,29 @@ img, input{vertical-align: middle;}
 .inner_1600{width: 1600px; margin: 0 auto;}
 
 /* header */
-header {position: fixed; top: 0; left: 0; width: 100%; height: 80px; background: #000; box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 1000;font-weight: 900;}
+header {position: fixed; top: 0; left: 0; width: 100%; height: 80px; background: transparent;box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 1000;font-weight: 900;box-shadow: none;transition: background 0.4s, box-shadow 0.4s;}
 .h_inner{position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 40px;}
+header.active { background: #000;box-shadow: 0 2px 5px rgba(0,0,0,0.3);height: 70px;}
 /* main menu */
 .logo {font-size: 2rem; font-weight: 900; color: #fff;}
 .logo span {color: #40e84e;}
 .gnb{display: flex; gap: 30px;font-size: 1.5rem;}
+/* footer */
+footer{background:#111;padding:80px 0 40px;border-top:1px solid #333;font-family:'Pretendard',sans-serif}
+.f_inner{max-width:1400px;margin:0 auto;padding:0 40px}
+/* top */
+.f_top{display:flex;justify-content:space-between;align-items:center;padding-bottom:40px;margin-bottom:40px;border-bottom:1px solid #222}
+.f_logo{font:900 1.8rem 'Orbitron',sans-serif;color:#fff}
+.f_logo span{color:#d2ff00}
+.f_sns{display:flex;gap:20px}
+.f_sns li a{display:flex;justify-content:center;align-items:center;width:45px;height:45px;background:#222;border-radius:50%;transition:.3s}
+.f_sns li a:hover{background:#d2ff00;transform:translateY(-5px)}
+.f_sns img{width:30px;}
+.f_sns li:nth-child(2) img{width: 40px;}
+/* mid */
+.f_mid{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:30px}
+.f_info p{font-size:.95rem;color:#888;margin-bottom:10px;line-height:1.8}.f_policy{display:flex;gap:30px}.f_policy a{font-size:.95rem;color:#aaa;transition:.3s}.f_policy a:hover,.f_policy a strong{color:#fff}.f_policy strong{font-weight:700}
+/* bottom */
+.f_bottom{margin-top:60px;text-align:center}.copyright{font-size:.85rem;color:#555;letter-spacing:1px;text-transform:uppercase}
+/* responsive */
+@media(max-width:768px){.f_top{flex-direction:column;gap:30px;text-align:center}.f_mid{flex-direction:column;align-items:center;text-align:center}.f_policy{justify-content:center;gap:15px}}
