@@ -1,227 +1,88 @@
-// GSAP 플러그인 등록
+// gsap register
 gsap.registerPlugin(ScrollTrigger);
-// 헤더 배경 변경 스크립트
-gsap.to("header", {
-    scrollTrigger: {
-        trigger: ".main_visual", 
-        start: "top top", 
-        end: "bottom top", 
-        onEnter: () => document.querySelector("header").classList.add("active"),
-        onLeaveBack: () => document.querySelector("header").classList.remove("active"),
-    }
+
+// header background change
+gsap.to("header",{scrollTrigger:{trigger:".main_visual",start:"top top",end:"bottom top",onEnter:()=>document.querySelector("header").classList.add("active"),onLeaveBack:()=>document.querySelector("header").classList.remove("active")}});
+
+// main init
+window.addEventListener("load",()=>{
+
+// 1 main visual convergence
+const mainVisualTimeline=gsap.timeline({scrollTrigger:{trigger:".main_visual",start:"top top",end:"+=3000",pin:true,scrub:1.5}});
+gsap.set(".convergence-target span",{x:()=> (Math.random()-.5)*1500,y:()=> (Math.random()-.5)*1000,z:()=> Math.random()*500,rotation:()=> (Math.random()-.5)*360,opacity:0});
+gsap.set(".sub-title",{opacity:0,y:50});
+mainVisualTimeline.to(".overlay",{opacity:1,duration:1}).to(".convergence-target span",{x:0,y:0,z:0,rotation:0,opacity:1,duration:2,stagger:{each:.05,from:"random"}},"-=.5").to(".sub-title",{opacity:1,y:0,duration:1,ease:"power2.out"},"-=.5");
+
+// 2 marquee infinite loop
+const marqueeWrapper=document.querySelector(".marquee_wrapper");
+if(marqueeWrapper){gsap.to(marqueeWrapper,{xPercent:-50,duration:30,ease:"none",repeat:-1});}
+
+// 3 section title reveal
+const lines=document.querySelectorAll(".s_title h2 .line");
+lines.forEach(line=>{const text=line.innerText;line.innerHTML=`<span style="display:inline-block;transform:translateY(100%)">${text}</span>`;gsap.to(line.querySelector("span"),{scrollTrigger:{trigger:".s_title",start:"top 80%"},y:0,duration:1,ease:"power4.out"});});
+gsap.to(".s_title p",{scrollTrigger:{trigger:".s_title",start:"top 70%"},opacity:1,y:0,duration:1,delay:.5,ease:"power3.out"});
+
+// 4 common reveal
+const reveals=document.querySelectorAll(".s_info,.reveal");
+reveals.forEach(section=>{gsap.fromTo(section,{opacity:0,y:50},{scrollTrigger:{trigger:section,start:"top 85%",end:"bottom 15%",toggleActions:"play reverse play reverse"},opacity:1,y:0,duration:1,ease:"power2.out"});});
+
 });
 
-window.addEventListener('load', () => {
-    
-    /** 1. 메인 비주얼 : 글자 사방에서 모여드는 효과 (Convergence) **/
-    const mainVisualTimeline = gsap.timeline({
-        scrollTrigger: {
-            trigger: ".main_visual",
-            start: "top top",
-            end: "+=3000",
-            pin: true,
-            scrub: 1.5,
-        }
-    });
-
-    // 초기 상태 설정 (흩어져 있는 상태)
-    gsap.set(".convergence-target span", {
-        x: () => (Math.random() - 0.5) * 1500,
-        y: () => (Math.random() - 0.5) * 1000, 
-        z: () => Math.random() * 500,
-        rotation: () => (Math.random() - 0.5) * 360, 
-        opacity: 0
-    });
-    gsap.set(".sub-title", { opacity: 0, y: 50 });
-
-    // 타임라인 애니메이션 실행
-    mainVisualTimeline
-        .to(".overlay", { opacity: 1, duration: 1 })
-        .to(".convergence-target span", {
-            x: 0, y: 0, z: 0, rotation: 0, opacity: 1,
-            duration: 2,
-            stagger: { each: 0.05, from: "random" }
-        }, "-=0.5")
-        .to(".sub-title", {
-            opacity: 1, y: 0, duration: 1, ease: "power2.out"
-        }, "-=0.5");
-
-
-    /** 2. 마키 효과 (흐르는 글자) : 무한 루프 **/
-    const marqueeWrapper = document.querySelector('.marquee_wrapper');
-    if (marqueeWrapper) {
-        gsap.to(marqueeWrapper, {
-            xPercent: -50,
-            duration: 30,
-            ease: "none",
-            repeat: -1
-        });
-    }
-
-
-    /** 3. 섹션 타이틀 (s_title) : 텍스트 마스킹 리빌 효과 **/
-    const lines = document.querySelectorAll('.s_title h2 .line');
-    lines.forEach((line) => {
-        const text = line.innerText;
-        line.innerHTML = `<span style="display:inline-block; transform:translateY(100%)">${text}</span>`;
-        
-        gsap.to(line.querySelector('span'), {
-            scrollTrigger: {
-                trigger: ".s_title",
-                start: "top 80%",
-            },
-            y: 0,
-            duration: 1,
-            ease: "power4.out"
-        });
-    });
-
-    // s_title 하단 p태그 페이드 인
-    gsap.to(".s_title p", {
-        scrollTrigger: {
-            trigger: ".s_title",
-            start: "top 70%",
-        },
-        opacity: 1, y: 0, duration: 1, delay: 0.5, ease: "power3.out"
-    });
-
-
-    /** 4. 공통 섹션 리빌 (Reveal) : 나중에 추가될 섹션들 자동 적용 **/
-    // HTML에 <section class="reveal"> 형태로 사용 시 작동
-    const reveals = document.querySelectorAll('.s_info, .reveal');
-    reveals.forEach((section) => {
-        gsap.fromTo(section, 
-            { opacity: 0, y: 50 }, 
-            {
-                scrollTrigger: {
-                    trigger: section,
-                    start: "top 85%",
-                    end: "bottom 15%",
-                    toggleActions: "play reverse play reverse",
-                },
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                ease: "power2.out"
-            }
-        );
-    });
-});
-/* card interaction */
-const iCards=document.querySelectorAll('.i_card');
-
+// card interaction
+const iCards=document.querySelectorAll(".i_card");
 iCards.forEach(card=>{
-
-card.addEventListener('mousemove',e=>{
+card.addEventListener("mousemove",e=>{
 const rect=card.getBoundingClientRect();
 const x=e.clientX-rect.left;
 const y=e.clientY-rect.top;
-
-card.style.setProperty('--x',`${x}px`);
-card.style.setProperty('--y',`${y}px`);
-
+card.style.setProperty("--x",`${x}px`);
+card.style.setProperty("--y",`${y}px`);
 const centerX=rect.width/2;
 const centerY=rect.height/2;
 const rotateX=(y-centerY)/10;
 const rotateY=(centerX-x)/10;
-
 gsap.to(card,{rotateX,rotateY,duration:.5,ease:"power2.out"});
-
-const icon=card.querySelector('.magnetic_icon');
-if(icon){
-const mX=(x-centerX)*.15;
-const mY=(y-centerY)*.15;
-gsap.to(icon,{x:mX,y:mY,duration:.3});
-}
+const icon=card.querySelector(".magnetic_icon");
+if(icon){const mX=(x-centerX)*.15;const mY=(y-centerY)*.15;gsap.to(icon,{x:mX,y:mY,duration:.3});}
 });
-
-card.addEventListener('mouseleave',()=>{
+card.addEventListener("mouseleave",()=>{
 gsap.to(card,{rotateX:0,rotateY:0,duration:.8,ease:"elastic.out(1,0.3)"});
-const icon=card.querySelector('.magnetic_icon');
+const icon=card.querySelector(".magnetic_icon");
 if(icon)gsap.to(icon,{x:0,y:0,duration:.5});
 });
-
 });
-/** 7. 불규칙한 오비탈 파트너 효과 **/
-window.addEventListener('load', () => {
-    const subPartners = document.querySelectorAll('.sub_partner');
-    const radius = 275; // 회전 반경
 
-    subPartners.forEach((item, i) => {
-        // 1. 각 아이템의 개별 회전축 역할을 할 객체 생성
-        const rotationData = { angle: (i / subPartners.length) * (Math.PI * 2) };
-
-        // 2. 개별적으로 빨라졌다 느려졌다 하는 무한 루프 애니메이션
-        function animatePartner() {
-            // 랜덤한 속도와 지속 시간 생성
-            const randomDuration = gsap.utils.random(2, 5); // 3~6초 사이로 가속/감속 주기 변경
-            const randomAngleAdd = gsap.utils.random(Math.PI / 4, Math.PI / 4); // 움직임의 크기 랜덤
-
-            gsap.to(rotationData, {
-                angle: `+=${randomAngleAdd}`, 
-                duration: randomDuration,
-                ease: "power2.inOut", // 빨라졌다가 서서히 느려지는 느낌
-                onUpdate: () => {
-                    // 계산된 각도로 위치 업데이트
-                    const x = Math.cos(rotationData.angle) * radius;
-                    const y = Math.sin(rotationData.angle) * radius;
-                    gsap.set(item, { x: x, y: y });
-                },
-                onComplete: animatePartner // 애니메이션이 끝나면 새로운 랜덤 값으로 다시 시작
-            });
-        }
-
-        // 3. 미세하게 떠다니는(Floating) 흔들림 효과 추가
-        gsap.to(item, {
-            y: "+=20",
-            x: "+=15",
-            duration: gsap.utils.random(2, 4),
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut"
-        });
-
-        animatePartner();
-    });
-});
-/** 8. 카운트다운 & 티켓 상태 애니메이션 **/
-// 1) 카운트다운 로직
-const targetDate = new Date("May 23, 2026 10:00:00").getTime();
-
-function updateCountdown() {
-    const now = new Date().getTime();
-    const gap = targetDate - now;
-
-    const d = Math.floor(gap / (1000 * 60 * 60 * 24));
-    const h = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
-    const s = Math.floor((gap % (1000 * 60)) / 1000);
-
-    document.getElementById("days").innerText = d < 10 ? "0" + d : d;
-    document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
-    document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
-    document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
+// 7 irregular orbital partner
+window.addEventListener("load",()=>{
+const subPartners=document.querySelectorAll(".sub_partner");
+const radius=275;
+subPartners.forEach((item,i)=>{
+const rotationData={angle:(i/subPartners.length)*(Math.PI*2)};
+function animatePartner(){
+const randomDuration=gsap.utils.random(2,5);
+const randomAngleAdd=gsap.utils.random(Math.PI/4,Math.PI/4);
+gsap.to(rotationData,{angle:`+=${randomAngleAdd}`,duration:randomDuration,ease:"power2.inOut",onUpdate:()=>{const x=Math.cos(rotationData.angle)*radius;const y=Math.sin(rotationData.angle)*radius;gsap.set(item,{x,y});},onComplete:animatePartner});
 }
-setInterval(updateCountdown, 1000);
-
-// 2) GSAP ScrollTrigger 애니메이션 (숫자 카운팅 + 프로그레스 바)
-gsap.to(".progress_fill", {
-    scrollTrigger: {
-        trigger: ".s_ticketing",
-        start: "top 80%",
-    },
-    width: "85%", // 목표 수치
-    duration: 2,
-    ease: "power4.out"
+gsap.to(item,{y:"+=20",x:"+=15",duration:gsap.utils.random(2,4),repeat:-1,yoyo:true,ease:"sine.inOut"});
+animatePartner();
+});
 });
 
-gsap.from(".counter", {
-    scrollTrigger: {
-        trigger: ".s_ticketing",
-        start: "top 80%",
-    },
-    textContent: 0,
-    duration: 2,
-    snap: { textContent: 1 }, // 정수 단위로 카운트
-    stagger: 1,
-});
+// 8 countdown & ticket animation
+const targetDate=new Date("May 23, 2026 10:00:00").getTime();
+function updateCountdown(){
+const now=new Date().getTime();
+const gap=targetDate-now;
+const d=Math.floor(gap/(1000*60*60*24));
+const h=Math.floor((gap%(1000*60*60*24))/(1000*60*60));
+const m=Math.floor((gap%(1000*60*60))/(1000*60));
+const s=Math.floor((gap%(1000*60))/1000);
+document.getElementById("days").innerText=d<10?"0"+d:d;
+document.getElementById("hours").innerText=h<10?"0"+h:h;
+document.getElementById("minutes").innerText=m<10?"0"+m:m;
+document.getElementById("seconds").innerText=s<10?"0"+s:s;
+}
+setInterval(updateCountdown,1000);
+
+gsap.to(".progress_fill",{scrollTrigger:{trigger:".s_ticketing",start:"top 80%"},width:"85%",duration:2,ease:"power4.out"});
+gsap.from(".counter",{scrollTrigger:{trigger:".s_ticketing",start:"top 80%"},textContent:0,duration:4,snap:{textContent:1},stagger:1});
