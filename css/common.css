@@ -7,11 +7,40 @@ ul, ol{list-style: none;}
 img, input{vertical-align: middle;}
 .inner{max-width:1440px;margin:0 auto;padding:0 20px}
 section{scroll-margin-top: 80px;}
-/* header */
-header {position: fixed; top: 0; left: 0; width: 100%; height: 80px; background: transparent;box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 1000;font-weight: 900;box-shadow: none;transition: background 0.4s, box-shadow 0.4s;}
 .h_inner{position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 40px;}
-header.active { background: #000;box-shadow: 0 2px 5px rgba(0,0,0,0.3);height: 70px;}
+/* header */
+header {
+    position: relative; 
+    width: 100%;
+    height: 80px;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    visibility: visible;
+    background: transparent; /* 초기 배경은 투명하게 */
+    /* 핵심: 헤더 높이만큼 마이너스 마진을 주어 아래 요소를 끌어올림 */
+    margin-bottom: -80px; 
+    transition: background 0.4s;
+}
 
+/* 스크롤되어 상단에 고정될 때 */
+header.sticky {
+    position: fixed; 
+    top: 0;
+    left: 0;
+    height: 70px;
+    /* 영상 위에 겹쳤을 때 글자가 잘 보이도록 반투명 검정 배경 추가 */
+    background: rgba(0, 0, 0, 0); 
+    backdrop-filter: blur(10px); /* 뒤에 겹치는 영상을 흐릿하게 처리하여 가독성 높임 */
+    border-bottom: 1px solid #d2ff00;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+    margin-bottom: 0; /* 고정 상태에서는 마진 제거 */
+}
+
+/* 고정 시 발생하는 여백 방지 클래스는 제거하거나 0으로 설정 */
+body.sticky-padding {
+    padding-top: 0; 
+}
 /* main menu */
 .logo {font-size: 2rem; font-weight: 900; color: #fff;}
 .logo span {color: #40e84e;}

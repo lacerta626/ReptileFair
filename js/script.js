@@ -1,12 +1,6 @@
 gsap.registerPlugin(ScrollTrigger);
 
-/* ==============================
-   Header Scroll Transition
-================================ */
-const header = document.getElementById('header');
-window.addEventListener('scroll', () => {
-    header.classList.toggle('active', window.scrollY > 50);
-});
+
 /* ==============================
    Header Navigation Scroll
 ================================ */
@@ -28,27 +22,27 @@ document.querySelectorAll('.gnb a').forEach(anchor => {
 });
 
 /* ==============================
-   1. Main Visual (Kinetic)
+   1. Main Visual (Kinetic) - 수정본
 ================================ */
 gsap.set(".convergence-target span", {
-    x: () => (Math.random() - 0.5) * 4500,
-    y: () => (Math.random() - 0.5) * 2500,
-    z: () => gsap.utils.random(1500, 3500),
-    scale: 10,
-    rotationX: () => gsap.utils.random(-360, 360),
-    rotationY: () => gsap.utils.random(-360, 360),
+    x: () => (Math.random() - 0.5) * 2000, // 범위를 조금 줄임
+    y: () => (Math.random() - 0.5) * 1000,
+    z: () => gsap.utils.random(500, 1000), // 너무 먼 Z축은 지지직거림의 원인
+    scale: 3, // 10에서 3 정도로 하향 조정 (충분히 크게 보입니다)
+    rotationX: () => gsap.utils.random(-180, 180),
+    rotationY: () => gsap.utils.random(-180, 180),
     opacity: 0,
-    filter: "blur(50px)",
+    filter: "blur(20px)", // 블러 강도를 낮춤 (성능 향상)
     color: "#222"
 });
 
 const mainVisualTimeline = gsap.timeline({ 
     paused: true,
     onComplete: () => {
-        // 애니메이션이 끝나면 스크롤 트리거를 강제로 종료시켜 다음 섹션으로 이동하게 함
         document.body.style.overflow = ""; 
     }
 });
+
 mainVisualTimeline
     .to(".bg_image", { scale: 1, duration: 5, ease: "sine.inOut" }, 0)
     .to(".overlay", { opacity: 1, duration: 2.5 }, 0.5)
@@ -57,14 +51,15 @@ mainVisualTimeline
         scale: 1,
         rotationX: 0, rotationY: 0,
         opacity: 1,
-        filter: "blur(0)",
+        filter: "blur(0px)",
         color: "#d2ff00",
-        duration: 3,           // 전체 재생 시간을 살짝 단축
+        duration: 3,
         stagger: { 
-            each: 0.03,        // 글자 간 간격을 0.08에서 0.03으로 촘촘하게 (핵심!)
-            from: "start"      // center보다 왼쪽부터 촤라락 오는 게 더 자연스럽습니다
+            each: 0.03,
+            from: "start"
         },
-        ease: "expo.out"       // 튕기는 back 대신, 부드럽게 감속하는 expo 사용 (핵심!)
+        ease: "expo.out",
+        force3D: true // 강제 하드웨어 가속 활성화
     }, "-=4.2")
     .fromTo(".convergence-target",
         { letterSpacing: "1em" }, // 시작 간격을 살짝 줄임
@@ -97,7 +92,22 @@ gsap.to(".marquee_wrapper", {
     duration: 25,
     ease: "none"
 });
+/* ==============================
+   Sticky Header Transition
+================================ */
+const header = document.querySelector('header');
+const movingText = document.querySelector('.moving_text');
 
+ScrollTrigger.create({
+    trigger: movingText,
+    start: "bottom top", // 무빙텍스트가 화면 위로 완전히 사라지는 순간
+    onEnter: () => {
+        header.classList.add('sticky');
+    },
+    onLeaveBack: () => {
+        header.classList.remove('sticky');
+    }
+});
 /* ==============================
    3. Reveal Sections & Text (수정본)
 ================================ */
