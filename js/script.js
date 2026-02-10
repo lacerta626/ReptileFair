@@ -76,18 +76,36 @@ gsap.to(".marquee_wrapper", {
 });
 
 /* ==============================
-   3. Reveal Sections
+   3. Reveal Sections & Text (보강)
 ================================ */
 gsap.utils.toArray(".reveal").forEach(el => {
+    // 섹션 전체 등장
     gsap.from(el, {
-        scrollTrigger: { trigger: el, start: "top 85%" },
+        scrollTrigger: { 
+            trigger: el, 
+            start: "top 85%" 
+        },
         opacity: 0,
         y: 40,
         duration: 1,
         ease: "power2.out"
     });
-});
 
+    // 섹션 내의 타이틀(h2)에 추가적인 Reveal 효과 부여
+    const title = el.querySelector('.section_title');
+    if (title) {
+        gsap.from(title, {
+            scrollTrigger: { 
+                trigger: title, 
+                start: "top 90%" 
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1.2,
+            ease: "expo.out"
+        });
+    }
+});
 /* ==============================
    4. Tabs
 ================================ */
@@ -175,17 +193,24 @@ document.querySelectorAll('.faq_q').forEach(q => {
 });
 
 /* ==============================
-   9. Card Tilt
+   9. Card Tilt & Effects (수정본)
 ================================ */
 document.querySelectorAll(".i_card").forEach(card => {
-
     card.addEventListener("mousemove", e => {
         const r = card.getBoundingClientRect();
+        const x = e.clientX - r.left; // 카드 내 마우스 X 좌표
+        const y = e.clientY - r.top;  // 카드 내 마우스 Y 좌표
+
+        // 1. 기존 틸트 효과
         gsap.to(card, {
-            rotateX: (e.clientY - r.top - r.height / 2) / 10,
-            rotateY: (r.width / 2 - (e.clientX - r.left)) / 10,
+            rotateX: (y - r.height / 2) / 10,
+            rotateY: (r.width / 2 - x) / 10,
             duration: 0.5
         });
+
+        // 2. 스포트라이트 좌표 전달 (추가된 부분)
+        card.style.setProperty("--x", `${(x / r.width) * 100}%`);
+        card.style.setProperty("--y", `${(y / r.height) * 100}%`);
     });
 
     card.addEventListener("mouseleave", () => {

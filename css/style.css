@@ -107,7 +107,41 @@
 
 .spotlight{position:absolute;inset:0;background:radial-gradient(circle at var(--x,50%) var(--y,50%),rgba(210,255,0,.2),transparent 60%);pointer-events:none;opacity:0;transition:.3s;z-index:2}
 .card_item:hover .spotlight{opacity:1}
+/* 스캔 라인 애니메이션 추가 */
+.scan_line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to bottom, transparent, #d2ff00, transparent);
+    z-index: 3;
+    opacity: 0;
+    pointer-events: none;
+}
 
+.card_item:hover .scan_line {
+    opacity: 1;
+    animation: scan 2s linear infinite;
+}
+
+/* 스포트라이트 위치 변수 초기값 설정 */
+.spotlight {
+    position: absolute;
+    inset: 0;
+    /* JS에서 전달받을 --x, --y 변수 활용 */
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(210,255,0,0.3), transparent 60%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: 2;
+}
+
+/* 스캔 애니메이션 정의 */
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
 
 /* ============================= */
 /* ORBITAL SECTION */
