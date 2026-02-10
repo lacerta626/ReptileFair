@@ -1,112 +1,199 @@
-// gsap register
 gsap.registerPlugin(ScrollTrigger);
 
-// header background change
-gsap.to("header", { scrollTrigger: { trigger: ".main_visual", start: "top top", end: "bottom top", onEnter: () => document.querySelector("header").classList.add("active"), onLeaveBack: () => document.querySelector("header").classList.remove("active") } });
-
-// main init
-window.addEventListener("load", () => {
-
-    // 1 main visual convergence
-    const mainVisualTimeline = gsap.timeline({ scrollTrigger: { trigger: ".main_visual", start: "top top", end: "+=3000", pin: true, scrub: 1.5 } });
-    gsap.set(".convergence-target span", { x: () => (Math.random() - .5) * 1500, y: () => (Math.random() - .5) * 1000, z: () => Math.random() * 500, rotation: () => (Math.random() - .5) * 360, opacity: 0 });
-    gsap.set(".sub-title", { opacity: 0, y: 50 });
-    mainVisualTimeline.to(".overlay", { opacity: 1, duration: 1 }).to(".convergence-target span", { x: 0, y: 0, z: 0, rotation: 0, opacity: 1, duration: 2, stagger: { each: .05, from: "random" } }, "-=.5").to(".sub-title", { opacity: 1, y: 0, duration: 1, ease: "power2.out" }, "-=.5");
-
-    // 2 marquee infinite loop
-    const marqueeWrapper = document.querySelector(".marquee_wrapper");
-    if (marqueeWrapper) { gsap.to(marqueeWrapper, { xPercent: -50, duration: 30, ease: "none", repeat: -1 }); }
-
-    // 3 section title reveal
-    const lines = document.querySelectorAll(".s_title h2 .line");
-    lines.forEach(line => { const text = line.innerText; line.innerHTML = `<span style="display:inline-block;transform:translateY(100%)">${text}</span>`; gsap.to(line.querySelector("span"), { scrollTrigger: { trigger: ".s_title", start: "top 80%" }, y: 0, duration: 1, ease: "power4.out" }); });
-    gsap.to(".s_title p", { scrollTrigger: { trigger: ".s_title", start: "top 70%" }, opacity: 1, y: 0, duration: 1, delay: .5, ease: "power3.out" });
-
-    // 4 common reveal
-    const reveals = document.querySelectorAll(".s_info,.reveal");
-    reveals.forEach(section => { gsap.fromTo(section, { opacity: 0, y: 50 }, { scrollTrigger: { trigger: section, start: "top 85%", end: "bottom 15%", toggleActions: "play reverse play reverse" }, opacity: 1, y: 0, duration: 1, ease: "power2.out" }); });
-
+/* ==============================
+   Header Scroll Transition
+================================ */
+const header = document.getElementById('header');
+window.addEventListener('scroll', () => {
+    header.classList.toggle('active', window.scrollY > 50);
 });
 
-// card interaction
-const iCards = document.querySelectorAll(".i_card");
-iCards.forEach(card => {
-    card.addEventListener("mousemove", e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty("--x", `${x}px`);
-        card.style.setProperty("--y", `${y}px`);
-        const centerX = rect.width / 2;
-        const centerY = rect.height / 2;
-        const rotateX = (y - centerY) / 10;
-        const rotateY = (centerX - x) / 10;
-        gsap.to(card, { rotateX, rotateY, duration: .5, ease: "power2.out" });
-        const icon = card.querySelector(".magnetic_icon");
-        if (icon) { const mX = (x - centerX) * .15; const mY = (y - centerY) * .15; gsap.to(icon, { x: mX, y: mY, duration: .3 }); }
-    });
-    card.addEventListener("mouseleave", () => {
-        gsap.to(card, { rotateX: 0, rotateY: 0, duration: .8, ease: "elastic.out(1,0.3)" });
-        const icon = card.querySelector(".magnetic_icon");
-        if (icon) gsap.to(icon, { x: 0, y: 0, duration: .5 });
-    });
+/* ==============================
+   1. Main Visual (Kinetic)
+================================ */
+gsap.set(".convergence-target span", {
+    x: () => (Math.random() - 0.5) * 4500,
+    y: () => (Math.random() - 0.5) * 2500,
+    z: () => gsap.utils.random(1500, 3500),
+    scale: 10,
+    rotationX: () => gsap.utils.random(-360, 360),
+    rotationY: () => gsap.utils.random(-360, 360),
+    opacity: 0,
+    filter: "blur(50px)",
+    color: "#222"
 });
+gsap.set(".sub-title", { opacity: 0, y: 50 });
 
-// 7 irregular orbital partner
-window.addEventListener("load", () => {
-    const subPartners = document.querySelectorAll(".sub_partner");
-    const radius = 275;
-    subPartners.forEach((item, i) => {
-        const rotationData = { angle: (i / subPartners.length) * (Math.PI * 2) };
-        function animatePartner() {
-            const randomDuration = gsap.utils.random(2, 5);
-            const randomAngleAdd = gsap.utils.random(Math.PI / 4, Math.PI / 4);
-            gsap.to(rotationData, { angle: `+=${randomAngleAdd}`, duration: randomDuration, ease: "power2.inOut", onUpdate: () => { const x = Math.cos(rotationData.angle) * radius; const y = Math.sin(rotationData.angle) * radius; gsap.set(item, { x, y }); }, onComplete: animatePartner });
+const mainVisualTimeline = gsap.timeline({
+    scrollTrigger: {
+        trigger: ".main_visual",
+        start: "top top",
+        end: "+=3500",
+        pin: true,
+        scrub: 1.2,
+        snap: { snapTo: 1, duration: 1.5, ease: "power3.inOut" },
+        onLeave: () => {
+            document.documentElement.style.overflow = "hidden";
+            setTimeout(() => document.documentElement.style.overflow = "", 1000);
         }
-        gsap.to(item, { y: "+=20", x: "+=15", duration: gsap.utils.random(2, 4), repeat: -1, yoyo: true, ease: "sine.inOut" });
-        animatePartner();
+    }
+});
+
+mainVisualTimeline
+    .to(".bg_image", { scale: 1, duration: 5, ease: "sine.inOut" }, 0)
+    .to(".overlay", { opacity: 1, duration: 2.5 }, 0.5)
+    .to(".convergence-target span", {
+        x: 0, y: 0, z: 0,
+        scale: 1,
+        rotationX: 0, rotationY: 0,
+        opacity: 1,
+        filter: "blur(0)",
+        color: "#d2ff00",
+        duration: 4.5,
+        stagger: { each: 0.08, from: "center" },
+        ease: "back.out(1.7)"
+    }, "-=4")
+    .fromTo(".convergence-target",
+        { letterSpacing: "1.5em" },
+        { letterSpacing: "0.05em", duration: 2.5, ease: "expo.out" },
+        "-=2.5"
+    )
+    .fromTo(".convergence-target",
+        { scale: 0.85, filter: "brightness(2.5)" },
+        { scale: 1, filter: "brightness(1)", duration: 1.2, ease: "elastic.out(1,0.4)" },
+        "-=0.8"
+    )
+    .to(".sub-title", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1");
+
+/* ==============================
+   2. Marquee
+================================ */
+gsap.to(".marquee_wrapper", {
+    xPercent: -50,
+    repeat: -1,
+    duration: 25,
+    ease: "none"
+});
+
+/* ==============================
+   3. Reveal Sections
+================================ */
+gsap.utils.toArray(".reveal").forEach(el => {
+    gsap.from(el, {
+        scrollTrigger: { trigger: el, start: "top 85%" },
+        opacity: 0,
+        y: 40,
+        duration: 1,
+        ease: "power2.out"
     });
 });
 
-// 8 countdown & ticket animation
+/* ==============================
+   4. Tabs
+================================ */
+const tabBtns = document.querySelectorAll('.tab_btn');
+const programLists = document.querySelectorAll('.program_list');
+
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        programLists.forEach(l => l.classList.remove('active'));
+
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab)?.classList.add('active');
+    });
+});
+
+/* ==============================
+   5. Orbital Partners
+================================ */
+document.querySelectorAll(".sub_partner").forEach((item, i, arr) => {
+    const data = { angle: (i / arr.length) * Math.PI * 2 };
+
+    gsap.to(data, {
+        angle: `+=${Math.PI * 2}`,
+        duration: 20 + i * 5,
+        repeat: -1,
+        ease: "none",
+        onUpdate: () => {
+            gsap.set(item, {
+                x: Math.cos(data.angle) * 220,
+                y: Math.sin(data.angle) * 220
+            });
+        }
+    });
+});
+
+/* ==============================
+   6. Ticket Countdown
+================================ */
 const targetDate = new Date("May 23, 2026 10:00:00").getTime();
-function updateCountdown() {
-    const now = new Date().getTime();
-    const gap = targetDate - now;
-    const d = Math.floor(gap / (1000 * 60 * 60 * 24));
-    const h = Math.floor((gap % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const m = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
-    const s = Math.floor((gap % (1000 * 60)) / 1000);
-    document.getElementById("days").innerText = d < 10 ? "0" + d : d;
-    document.getElementById("hours").innerText = h < 10 ? "0" + h : h;
-    document.getElementById("minutes").innerText = m < 10 ? "0" + m : m;
-    document.getElementById("seconds").innerText = s < 10 ? "0" + s : s;
-}
-setInterval(updateCountdown, 1000);
 
-gsap.to(".progress_fill", { scrollTrigger: { trigger: ".s_ticketing", start: "top 80%" }, width: "85%", duration: 2, ease: "power4.out" });
-gsap.from(".counter", { scrollTrigger: { trigger: ".s_ticketing", start: "top 80%" }, textContent: 0, duration: 4, snap: { textContent: 1 }, stagger: 1 });
+setInterval(() => {
+    const gap = targetDate - Date.now();
 
-/* stats count animation */
-const stats = document.querySelectorAll('.stat_num')
+    days.innerText    = Math.floor(gap / 86400000);
+    hours.innerText   = Math.floor((gap / 3600000) % 24);
+    minutes.innerText= Math.floor((gap / 60000) % 60);
+    seconds.innerText= Math.floor((gap / 1000) % 60);
+}, 1000);
 
-stats.forEach(stat => {
-    const target = parseInt(stat.getAttribute('data-target'))
+gsap.to(".progress_fill", {
+    scrollTrigger: { trigger: ".s_ticketing", start: "top 80%" },
+    width: "85%",
+    duration: 2
+});
+
+/* ==============================
+   7. Stats Counter
+================================ */
+document.querySelectorAll('.stat_num').forEach(stat => {
+    const target = +stat.dataset.target;
 
     gsap.to(stat, {
-        scrollTrigger: {
-            trigger: '.s_stats',
-            start: 'top 85%',
-            toggleActions: 'play none none none'
-        },
+        scrollTrigger: { trigger: ".s_stats", start: "top 85%" },
         innerText: target,
-        duration: 2.5,
+        duration: 2,
         snap: { innerText: 1 },
-        ease: 'power3.out',
-        onUpdate: function () {
+        onUpdate() {
             if (target === 240000) {
-                stat.innerText = Math.floor(this.targets()[0].innerText / 1000)
+                stat.innerText = Math.floor(this.targets()[0].innerText / 1000) + "K";
             }
         }
-    })
-})
+    });
+});
+
+/* ==============================
+   8. FAQ Accordion
+================================ */
+document.querySelectorAll('.faq_q').forEach(q => {
+    q.addEventListener('click', () => {
+        document.querySelectorAll('.faq_item')
+            .forEach(i => i.classList.remove('active'));
+        q.parentElement.classList.toggle('active');
+    });
+});
+
+/* ==============================
+   9. Card Tilt
+================================ */
+document.querySelectorAll(".i_card").forEach(card => {
+
+    card.addEventListener("mousemove", e => {
+        const r = card.getBoundingClientRect();
+        gsap.to(card, {
+            rotateX: (e.clientY - r.top - r.height / 2) / 10,
+            rotateY: (r.width / 2 - (e.clientX - r.left)) / 10,
+            duration: 0.5
+        });
+    });
+
+    card.addEventListener("mouseleave", () => {
+        gsap.to(card, {
+            rotateX: 0,
+            rotateY: 0,
+            duration: 0.8,
+            ease: "elastic.out(1,0.4)"
+        });
+    });
+});
