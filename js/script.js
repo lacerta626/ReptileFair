@@ -232,13 +232,22 @@ document.querySelectorAll('.stat_num').forEach(stat => {
 });
 
 /* ==============================
-   8. FAQ Accordion
+   8. FAQ Accordion (Fixed)
 ================================ */
 document.querySelectorAll('.faq_q').forEach(q => {
     q.addEventListener('click', () => {
-        document.querySelectorAll('.faq_item')
-            .forEach(i => i.classList.remove('active'));
-        q.parentElement.classList.toggle('active');
+        const parent = q.parentElement;
+        const wasActive = parent.classList.contains('active');
+
+        // 모든 FAQ 아이템 닫기
+        document.querySelectorAll('.faq_item').forEach(item => {
+            item.classList.remove('active');
+        });
+
+        // 클릭한 항목이 이전에 닫혀있었다면 열기 (이미 열려있었다면 위에서 닫힌 상태 유지)
+        if (!wasActive) {
+            parent.classList.add('active');
+        }
     });
 });
 

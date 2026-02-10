@@ -173,18 +173,34 @@
 .stat_label{font-size:1rem;color:#888;text-transform:uppercase;letter-spacing:2px}
 
 /* ============================= */
-/* FAQ */
+/* FAQ Section */
 /* ============================= */
-.s_faq{padding:150px 0;background:#050505}
-.faq_item{border-bottom:1px solid #222}
-.faq_q{padding:30px 0;font-size:1.3rem;font-weight:700;display:flex;justify-content:space-between;cursor:pointer}
-.faq_a{max-height:0;overflow:hidden;transition:.4s;color:var(--text-gray)}
-.faq_item.active .faq_a{max-height:200px;padding-bottom:30px}
+
+.s_faq{padding:150px 0;background:#050505;}
+.faq_item{border-bottom:1px solid #222;transition:0.3s;}
+.faq_q{padding:35px 0;font-size:1.35rem;font-weight:700;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:#fff;transition:color 0.3s ease;font-family:'Pretendard',sans-serif;}
+.faq_q:hover,.faq_item.active .faq_q{color:#d2ff00;}
+.faq_q span{font-size:1.8rem;font-weight:300;transition:transform 0.4s ease,color 0.3s ease;display:inline-block;}
+.faq_item.active .faq_q span{transform:rotate(45deg);color:#d2ff00;}
+.faq_a{max-height:0;overflow:hidden;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);color:#aaa;font-size:1.1rem;line-height:1.8;padding-left:0;margin-left:5px;}
+.faq_item.active .faq_a{max-height:2000px;padding-bottom:40px;padding-left:25px;border-left:2px solid #d2ff00;color:#eee;}
+
+
 
 /* ============================= */
 /* ADOPTION GUIDE */
 /* ============================= */
-.s_guide { padding: 150px 0; background: #000; }
+.faq_a .inner_guide {
+    margin-top: 40px;
+    padding-top: 40px;
+    border-top: 1px solid #222;
+}
+.faq_a .guide_title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    color: #d2ff00;
+    margin-bottom: 30px;
+}
 .guide_container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
 .guide_item { background: #111; padding: 40px; border-radius: 20px; border: 1px solid #222; transition: 0.3s; }
 .guide_item:hover { border-color: #d2ff00; transform: translateY(-10px); }
