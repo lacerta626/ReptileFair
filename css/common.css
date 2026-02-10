@@ -5,8 +5,8 @@ body{font-family: 'Orbitron', sans-serif; font-size: 16px; color: #fff; line-hei
 a{text-decoration: none; color: inherit;}
 ul, ol{list-style: none;}
 img, input{vertical-align: middle;}
-.inner{max-width:1200px;margin:0 auto;padding:0 20px}
-
+.inner{max-width:1440px;margin:0 auto;padding:0 20px}
+section{scroll-margin-top: 80px;}
 /* header */
 header {position: fixed; top: 0; left: 0; width: 100%; height: 80px; background: transparent;box-shadow: 0 2px 5px rgba(0,0,0,0.1); z-index: 1000;font-weight: 900;box-shadow: none;transition: background 0.4s, box-shadow 0.4s;}
 .h_inner{position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: space-between; padding: 0 40px;}
@@ -16,7 +16,7 @@ header.active { background: #000;box-shadow: 0 2px 5px rgba(0,0,0,0.3);height: 7
 .logo {font-size: 2rem; font-weight: 900; color: #fff;}
 .logo span {color: #40e84e;}
 .gnb{display: flex; gap: 30px;font-size: 1.5rem;}
-
+#about{scroll-margin-top: 0;}
 /* footer */
 footer{background:#111;padding:80px 0 40px;border-top:1px solid #333;font-family:'Pretendard',sans-serif}
 .f_inner{max-width:1400px;margin:0 auto;padding:0 40px}

@@ -15,16 +15,15 @@
         <div class="h_inner">
             <div class="logo"><a href="#"><span>REPTILE</span> EXPO</a></div>
             <ul class="gnb">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Schedule</a></li>
-                <li><a href="#">Programs</a></li>
-                <li><a href="#">Exhibitors</a></li>
-                <li><a href="#">Contact</a></li>
-                <li><a href="#">Ticket</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#visit">Visit</a></li>
+                <li><a href="#program">Program</a></li>
+                <li><a href="#lineup">Lineup</a></li>
+                <li><a href="#ticket">Ticket</a></li>
             </ul>
         </div>
     </header>
-    <div class="main_visual">
+    <div class="main_visual" id="about">
         <div class="bg_image">
             <img src="images/main_visual_02.jpg" alt="메인 비주얼 이미지">
             <div class="overlay"></div>
@@ -65,7 +64,7 @@
         <section class="s_title reveal">
             <div class="inner">
                 <h2 class="split-text">
-                    <span class="line">Wild Inside</span>
+                    <span class="line shimmer-title">Wild Inside</span>
                     <span class="line accent">비늘 속의 숨겨진 온기를 발견하세요</span>
                 </h2>
                 <p class="fade-up">
@@ -74,7 +73,7 @@
                 </p>
             </div>
         </section>
-        <section class="s_info reveal">
+        <section class="s_info reveal" id="visit">
             <div class="inner">
                 <h2 class="section_title shimmer-title">VISIT US</h2>
 
@@ -91,11 +90,14 @@
                         <div class="info_item">
                             <span class="label">LOCATION</span>
                             <div class="content">
-                                <p class="main_info">SEUL SETEC, HALL 1 & 2</p>
+                                <p class="main_info">SEOUL SETEC, HALL 1 & 2</p>
                                 <p class="sub_info">서울 강남구 남부순환로 3104 (학여울역 1번 출구)</p>
-                                <a href="https://map.naver.com/v5/search/SETEC" target="_blank"
-                                    class="direction_button">오시는
-                                    길</a>
+                                <div class="btn_group">
+                                    <a href="https://map.naver.com/v5/search/SETEC" target="_blank"
+                                        class="direction_button">오시는 길</a>
+                                    <button type="button" class="info_toggle_btn">행사장 안내 <span
+                                            class="arrow">▼</span></button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -106,9 +108,29 @@
                 </div>
             </div>
         </section>
+        <section class="s_location" id="visitorInfoSection" style="display: none;">
+            <div class="inner">
+                <h2 class="section_title shimmer-title">VISITOR INFO</h2>
+                <div class="location_grid">
+                    <div class="parking_info">
+                        <h3><img src="images/parking_icon.png" alt="" class="small_icon"> 주차 안내</h3>
+                        <ul>
+                            <li><strong>SETEC 주차장:</strong> 최초 30분 1,500원 (추가 10분당 500원)</li>
+                            <li><strong>일일권:</strong> 행사 참가자 할인 혜택 (현장 안내 데스크 문의)</li>
+                            <li><strong>주의:</strong> 주말은 주차장이 매우 혼잡하오니 대중교통 이용을 권장합니다.</li>
+                        </ul>
+                    </div>
+                    <div class="transport_info">
+                        <h3><img src="images/subway_icon.png" alt="" class="small_icon"> 대중교통</h3>
+                        <p><strong>지하철:</strong> 3호선 학여울역 1번 출구 (도보 1분)</p>
+                        <p><strong>버스:</strong> 학여울역 정류장 하차 (간선 401, 지선 3011 등)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
         <section class="s_program reveal" id="program">
             <div class="inner">
-                <h2 class="section_title shimmer-title">SCHEDULE</h2>
+                <h2 class="section_title shimmer-title">Program</h2>
                 <div class="tab_menu">
                     <button class="tab_btn active" data-tab="day1">DAY 1 (05.23)</button>
                     <button class="tab_btn" data-tab="day2">DAY 2 (05.24)</button>
@@ -154,8 +176,28 @@
                 </div>
             </div>
         </section>
-
-        <section class="s_cards reveal">
+        <section class="s_highlights reveal">
+            <div class="inner">
+                <h2 class="section_title shimmer-title">KEY HIGHLIGHTS</h2>
+                <div class="highlight_grid">
+                    <div class="h_item">
+                        <div class="h_img"><img src="images/highlight_01.jpg" alt="Rare Morphs"></div>
+                        <div class="h_txt">
+                            <h3>Rare Morph Showcase</h3>
+                            <p>전 세계에서 가장 희귀한 변이 개체들을 한자리에서 만나보세요.</p>
+                        </div>
+                    </div>
+                    <div class="h_item">
+                        <div class="h_img"><img src="images/highlight_02.jpg" alt="Live Seminar"></div>
+                        <div class="h_txt">
+                            <h3>Expert Live Seminar</h3>
+                            <p>유명 브리더들이 전하는 실전 사육 노하우와 모프 유전학 강의.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="s_cards reveal" id="lineup">
             <div class="inner">
                 <h2 class="section_title shimmer-title">EXOTIC LINEUP</h2>
                 <div class="card_container">
@@ -247,7 +289,20 @@
 
                 </div>
             </div>
+        </section>
 
+
+        <section class="s_sns reveal" id="sns">
+            <div class="inner">
+                <h2 class="section_title shimmer-title">SOCIAL FEED</h2>
+                <p class="sns_tag">#REPTILEEXPO2026 #렙타일엑스포</p>
+                <div class="sns_grid">
+                    <div class="sns_card"><img src="images/sns_01.jpg" alt="SNS Feed"></div>
+                    <div class="sns_card"><img src="images/sns_02.jpg" alt="SNS Feed"></div>
+                    <div class="sns_card"><img src="images/sns_03.jpg" alt="SNS Feed"></div>
+                    <div class="sns_card"><img src="images/sns_04.jpg" alt="SNS Feed"></div>
+                </div>
+            </div>
         </section>
         <section class="s_orbital reveal">
             <div class="inner">
@@ -273,7 +328,7 @@
                 </div>
             </div>
         </section>
-        <section class="s_ticketing reveal">
+        <section class="s_ticketing reveal" id="ticket">
             <div class="inner">
                 <h2 class="section_title shimmer-title">TICKET STATUS</h2>
 
@@ -347,6 +402,28 @@
                 </div>
             </div>
         </section>
+        <section class="s_guide reveal" id="guide">
+            <div class="inner">
+                <h2 class="section_title shimmer-title">ADOPTION GUIDE</h2>
+                <div class="guide_container">
+                    <div class="guide_item">
+                        <div class="g_num">01</div>
+                        <h4>개체 선택 및 상담</h4>
+                        <p>각 부스의 전문 브리더와 상담을 통해 사육 환경과 먹이 습관을 확인하세요.</p>
+                    </div>
+                    <div class="guide_item">
+                        <div class="g_num">02</div>
+                        <h4>CITES 서류 작성</h4>
+                        <p>사이테스 부속서 종의 경우, 현장에서 양수양도 신고 서류를 반드시 작성해야 합니다.</p>
+                    </div>
+                    <div class="guide_item">
+                        <div class="g_num">03</div>
+                        <h4>안전한 이동</h4>
+                        <p>준비해오신 채집통이나 부스에서 제공하는 박스에 담아 안전하게 귀가하세요.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
 
@@ -382,5 +459,6 @@
 <!-- gsap library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 
 </html>

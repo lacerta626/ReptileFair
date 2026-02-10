@@ -7,6 +7,25 @@ const header = document.getElementById('header');
 window.addEventListener('scroll', () => {
     header.classList.toggle('active', window.scrollY > 50);
 });
+/* ==============================
+   Header Navigation Scroll
+================================ */
+document.querySelectorAll('.gnb a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault(); // 기본 이동 막기
+
+        const targetId = this.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+
+        if (targetSection) {
+            // GSAP ScrollToPlugin이 없어도 일반 window.scrollTo로 구현 가능
+            window.scrollTo({
+                top: targetSection.offsetTop - 70, // 헤더 높이만큼 뺌
+                behavior: 'smooth'
+            });
+        }
+    });
+});
 
 /* ==============================
    1. Main Visual (Kinetic)
@@ -22,23 +41,14 @@ gsap.set(".convergence-target span", {
     filter: "blur(50px)",
     color: "#222"
 });
-gsap.set(".sub-title", { opacity: 0, y: 50 });
 
-const mainVisualTimeline = gsap.timeline({
-    scrollTrigger: {
-        trigger: ".main_visual",
-        start: "top top",
-        end: "+=3500",
-        pin: true,
-        scrub: 1.2,
-        snap: { snapTo: 1, duration: 1.5, ease: "power3.inOut" },
-        onLeave: () => {
-            document.documentElement.style.overflow = "hidden";
-            setTimeout(() => document.documentElement.style.overflow = "", 1000);
-        }
+const mainVisualTimeline = gsap.timeline({ 
+    paused: true,
+    onComplete: () => {
+        // 애니메이션이 끝나면 스크롤 트리거를 강제로 종료시켜 다음 섹션으로 이동하게 함
+        document.body.style.overflow = ""; 
     }
 });
-
 mainVisualTimeline
     .to(".bg_image", { scale: 1, duration: 5, ease: "sine.inOut" }, 0)
     .to(".overlay", { opacity: 1, duration: 2.5 }, 0.5)
@@ -49,21 +59,34 @@ mainVisualTimeline
         opacity: 1,
         filter: "blur(0)",
         color: "#d2ff00",
-        duration: 4.5,
-        stagger: { each: 0.08, from: "center" },
-        ease: "back.out(1.7)"
-    }, "-=4")
+        duration: 3,           // 전체 재생 시간을 살짝 단축
+        stagger: { 
+            each: 0.03,        // 글자 간 간격을 0.08에서 0.03으로 촘촘하게 (핵심!)
+            from: "start"      // center보다 왼쪽부터 촤라락 오는 게 더 자연스럽습니다
+        },
+        ease: "expo.out"       // 튕기는 back 대신, 부드럽게 감속하는 expo 사용 (핵심!)
+    }, "-=4.2")
     .fromTo(".convergence-target",
-        { letterSpacing: "1.5em" },
-        { letterSpacing: "0.05em", duration: 2.5, ease: "expo.out" },
-        "-=2.5"
-    )
-    .fromTo(".convergence-target",
-        { scale: 0.85, filter: "brightness(2.5)" },
-        { scale: 1, filter: "brightness(1)", duration: 1.2, ease: "elastic.out(1,0.4)" },
-        "-=0.8"
+        { letterSpacing: "1em" }, // 시작 간격을 살짝 줄임
+        { letterSpacing: "0.05em", duration: 3, ease: "power4.out" },
+        "-=2.8"
     )
     .to(".sub-title", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1");
+    ScrollTrigger.create({
+    trigger: ".main_visual",
+    start: "top top",
+    end: "+=1000", // 애니메이션 동안 머무를 거리
+    pin: true,     // 화면 고정
+    onEnter: (self) => {
+        // 스크롤이 진입하면 타임라인 재생
+        if (mainVisualTimeline.progress() === 0) {
+            mainVisualTimeline.play();
+        }
+    },
+    // 스크롤을 무시하고 애니메이션만 집중하게 하려면 이 옵션을 활용합니다.
+    fastScrollEnd: true, 
+    preventOverScroll: true
+});
 
 /* ==============================
    2. Marquee
@@ -76,19 +99,23 @@ gsap.to(".marquee_wrapper", {
 });
 
 /* ==============================
-   3. Reveal Sections & Text
+   3. Reveal Sections & Text (수정본)
 ================================ */
+// 1. .reveal 클래스가 붙은 섹션 전체 등장 애니메이션
 gsap.utils.toArray(".reveal").forEach(el => {
     gsap.from(el, {
         scrollTrigger: { 
             trigger: el, 
-            start: "top 85%" 
+            start: "top 85%",
+            toggleActions: "play none none reverse" 
         },
         opacity: 0,
         y: 40,
         duration: 1,
         ease: "power2.out"
     });
+
+    // 섹션 내의 .section_title 애니메이션
     const title = el.querySelector('.section_title');
     if (title) {
         gsap.from(title, {
@@ -102,6 +129,21 @@ gsap.utils.toArray(".reveal").forEach(el => {
             ease: "expo.out"
         });
     }
+});
+
+// 2. 개별 .fade-up 요소 애니메이션 (추가)
+gsap.utils.toArray(".fade-up").forEach((item) => {
+    gsap.to(item, {
+        scrollTrigger: {
+            trigger: item,
+            start: "top 90%",
+            toggleActions: "play none none reverse"
+        },
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: "power2.out"
+    });
 });
 /* ==============================
    4. Tabs
@@ -120,25 +162,36 @@ tabBtns.forEach(btn => {
 });
 
 /* ==============================
-   5. Orbital Partners
+   5. Orbital Partners (완종 수정본)
 ================================ */
 document.querySelectorAll(".sub_partner").forEach((item, i, arr) => {
     const data = { angle: (i / arr.length) * Math.PI * 2 };
+    const radius = 230; // 궤도 선 반지름과 일치시킴
 
-    gsap.to(data, {
+    // 개별 애니메이션 인스턴스 생성
+    const orbitAnimation = gsap.to(data, {
         angle: `+=${Math.PI * 2}`,
-        duration: 20 + i * 5,
+        duration: 25 + i * 3, // 너무 빠르지 않게 조정
         repeat: -1,
         ease: "none",
         onUpdate: () => {
             gsap.set(item, {
-                x: Math.cos(data.angle) * 220,
-                y: Math.sin(data.angle) * 220
+                x: Math.cos(data.angle) * radius,
+                y: Math.sin(data.angle) * radius
             });
         }
     });
-});
 
+    // 호버 시 애니메이션 멈추고 컬러 표시
+    item.addEventListener("mouseenter", () => {
+        orbitAnimation.pause(); // 애니메이션 일시정지
+    });
+
+    // 마우스 떼면 다시 재생
+    item.addEventListener("mouseleave", () => {
+        orbitAnimation.play(); // 애니메이션 재개
+    });
+});
 /* ==============================
    6. Ticket Countdown
 ================================ */
@@ -217,3 +270,56 @@ document.querySelectorAll(".i_card").forEach(card => {
         });
     });
 });
+/* ==============================
+   Smooth Scroll for Navigation
+================================ */
+document.querySelectorAll('header a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            gsap.to(window, {
+                duration: 1,
+                scrollTo: { y: target, offsetY: 70 }, // 헤더 높이만큼 오프셋
+                ease: "power3.inOut"
+            });
+        }
+    });
+});
+/* ==============================
+   Visitor Info Section Toggle
+================================ */
+const infoBtn = document.querySelector('.info_toggle_btn');
+const infoSection = document.getElementById('visitorInfoSection');
+
+if (infoBtn && infoSection) {
+    infoBtn.addEventListener('click', () => {
+        const isHidden = window.getComputedStyle(infoSection).display === 'none';
+
+        if (isHidden) {
+            // 보이기 (Fade In)
+            infoSection.style.display = 'block';
+            gsap.fromTo(infoSection, 
+                { opacity: 0, y: 20 }, 
+                { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+            );
+            infoBtn.classList.add('active');
+            
+            // 정보가 나타난 곳으로 부드럽게 이동
+            setTimeout(() => {
+                infoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        } else {
+            // 숨기기 (Fade Out)
+            gsap.to(infoSection, { 
+                opacity: 0, 
+                y: 20, 
+                duration: 0.4, 
+                onComplete: () => {
+                    infoSection.style.display = 'none';
+                } 
+            });
+            infoBtn.classList.remove('active');
+        }
+    });
+}
