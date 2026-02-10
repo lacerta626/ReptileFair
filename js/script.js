@@ -332,3 +332,13 @@ if (infoBtn && infoSection) {
         }
     });
 }
+gsap.from(".v_text .reveal", {
+    scrollTrigger: {
+        trigger: ".video_section",
+        start: "top 80%",
+    },
+    y: 50,
+    opacity: 0,
+    duration: 1.5,
+    ease: "power3.out"
+});
