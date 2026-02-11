@@ -143,7 +143,7 @@
 /* ============================= */
 /* sns SECTION */
 /* ============================= */
-.s_sns { text-align: center; padding: 100px 0; }
+.s_sns { text-align: center; padding: 50px 0; }
 .sns_tag { color: #d2ff00; font-weight: 700; margin-bottom: 30px; font-family: 'Orbitron';font-size: 1.5rem; }
 .sns_grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
 .sns_card { aspect-ratio: 1/1; background: #222; border-radius: 10px; overflow: hidden; }
@@ -155,10 +155,10 @@
 .sns_item { width: 250px; height: 250px; border-radius: 10px; overflow: hidden; }
 .sns_item img { width: 100%; height: 100%; object-fit: cover; }
 .swiper1 {width: 100%; padding: 50px 0;}
-.swiper-slide {width: 300px; /* 슬라이드 한 칸의 너비 */height: 300px;border-radius: 15px; overflow: hidden;background: #222;}
-.swiper-slide img {width: 100%;height: 100%;object-fit: cover;}
-.swiper-button-next, .swiper-button-prev { color: #d2ff00; }
-.swiper-pagination-bullet-active { background: #d2ff00; }
+.swiper-slide{width:300px;border-radius:15px;aspect-ratio: 16/9;overflow: hidden;background:#111;}
+.swiper-slide img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}
+.swiper-button-next,.swiper-button-prev{color:#d2ff00;}
+.swiper-pagination-bullet-active{background:#d2ff00;}
 
 /* ============================= */
 /* ORBITAL SECTION */

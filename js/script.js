@@ -235,7 +235,7 @@ tabBtns.forEach(btn => {
 
 gsap.utils.toArray('.h_item').forEach((item, i) => {
     const isLeft = item.classList.contains('left_slide');
-    
+
     gsap.from(item, {
         scrollTrigger: {
             trigger: item,
@@ -264,13 +264,27 @@ gsap.utils.toArray('.h_item').forEach((item, i) => {
     sns_slider
 ================================ */
 const swiper1 = new Swiper('.swiper1', {
-    slidesPerView: 'auto',
-    spaceBetween: 20,
-    centeredSlides: true,
-    loop: true,
-    autoplay: { delay: 3000 },
-    pagination: { el: '.swiper-pagination', clickable: true },
-    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    // 슬라이드 너비를 CSS에서 정한 대로 사용함
+    slidesPerView: 'auto', 
+    spaceBetween: 20,      // 슬라이드 사이 간격
+    centeredSlides: false, // 왼쪽 정렬 (중앙 정렬을 원하면 true)
+    loop: true,            // 무한 반복
+    
+    // 자동 재생
+    autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+    },
+    
+    // 페이지네이션 및 네비게이션
+    pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+    },
+    navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+    },
 });
 
 gsap.to(".marquee_inner", {
