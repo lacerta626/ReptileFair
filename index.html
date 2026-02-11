@@ -8,15 +8,18 @@
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/style.css">
     <script src="js/script.js" defer></script>
+    <!-- Swiper 슬라이드 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
 </head>
 
 <body>
 
     <div class="main_visual" id="about">
-        <div class="bg_image">
-             <video autoplay muted loop playsinline class="bg_video">
-                    <source src="media/highlight_02.mp4" type="video/mp4">
-                </video>
+        <div class="bg_video">
+            <video autoplay muted loop playsinline class="bg_video">
+                <source src="media/main_visual.mp4" type="video/mp4">
+            </video>
             <div class="overlay"></div>
         </div>
         <div class="main_text">
@@ -25,6 +28,9 @@
                 &nbsp;
                 <span>E</span><span>x</span><span>p</span><span>o</span>
             </h1>
+            <div class="year_text">
+                <span>2</span><span>0</span><span>2</span><span>6</span>
+            </div>
         </div>
     </div>
     <div class="moving_text">
@@ -64,12 +70,10 @@
         </div>
     </header>
     <main>
-        <section class="video_section">
-            <div class="video_wrap">
-                <img src="images/main_visual_02.jpg" alt="메인 비주얼 이미지">
-
+        <section class="image_section">
+            <div class="image_wrap">
+                <img src="images/main_visual_01.jpg" alt="메인 비주얼 이미지">
             </div>
-
         </section>
 
         <section class="s_title reveal">
@@ -303,19 +307,44 @@
             </div>
         </section>
 
-
         <section class="s_sns reveal" id="sns">
             <div class="inner">
                 <h2 class="section_title shimmer-title">SOCIAL FEED</h2>
-                <p class="sns_tag">#REPTILEEXPO2026 #렙타일엑스포</p>
-                <div class="sns_grid">
-                    <div class="sns_card"><img src="images/sns_01.jpg" alt="SNS Feed"></div>
-                    <div class="sns_card"><img src="images/sns_02.jpg" alt="SNS Feed"></div>
-                    <div class="sns_card"><img src="images/sns_03.jpg" alt="SNS Feed"></div>
-                    <div class="sns_card"><img src="images/sns_04.jpg" alt="SNS Feed"></div>
+                
+
+                <div class="swiper swiper1">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide"><img src="images/feed_01.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="images/feed_02.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="images/feed_02.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="images/feed_04.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="images/feed_01.jpg" alt=""></div>
+                        <div class="swiper-slide"><img src="images/feed_02.jpg" alt=""></div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
                 </div>
             </div>
         </section>
+        <section class="s_sns reveal">
+            <div class="inner">
+                <p class="sns_tag">#REPTILEEXPO2026 #렙타일엑스포</p>
+                <div class="marquee_sns">
+                    <div class="marquee_inner">
+                        <div class="sns_item"><img src="images/feed_01.jpg"></div>
+                        <div class="sns_item"><img src="images/feed_02.jpg"></div>
+                        <div class="sns_item"><img src="images/feed_03.jpg"></div>
+                        <div class="sns_item"><img src="images/feed_04.jpg"></div>
+                        <div class="sns_item"><img src="images/feed_01.jpg"></div>
+                        <div class="sns_item"><img src="images/feed_02.jpg"></div>
+                        <div class="sns_item"><img src="images/feed_03.jpg"></div>
+                        <div class="sns_item"><img src="images/feed_04.jpg"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section class="s_orbital reveal">
             <div class="inner">
                 <h2 class="section_title shimmer-title">GLOBAL NETWORKS</h2>
@@ -477,5 +506,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
 
 </html>

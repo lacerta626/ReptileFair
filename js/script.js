@@ -24,15 +24,16 @@ document.querySelectorAll('.gnb a').forEach(anchor => {
 /* ==============================
    1. Main Visual (Kinetic) - 수정본
 ================================ */
-gsap.set(".convergence-target span", {
-    x: () => (Math.random() - 0.5) * 2000, // 범위를 조금 줄임
+// 초기 상태 설정 (2026 포함)
+gsap.set(".convergence-target span, .year_text span", {
+    x: () => (Math.random() - 0.5) * 2000,
     y: () => (Math.random() - 0.5) * 1000,
-    z: () => gsap.utils.random(500, 1000), // 너무 먼 Z축은 지지직거림의 원인
-    scale: 3, // 10에서 3 정도로 하향 조정 (충분히 크게 보입니다)
+    z: () => gsap.utils.random(500, 1000),
+    scale: 3,
     rotationX: () => gsap.utils.random(-180, 180),
     rotationY: () => gsap.utils.random(-180, 180),
     opacity: 0,
-    filter: "blur(20px)", // 블러 강도를 낮춤 (성능 향상)
+    filter: "blur(20px)",
     color: "#222"
 });
 
@@ -46,6 +47,8 @@ const mainVisualTimeline = gsap.timeline({
 mainVisualTimeline
     .to(".bg_image", { scale: 1, duration: 5, ease: "sine.inOut" }, 0)
     .to(".overlay", { opacity: 1, duration: 2.5 }, 0.5)
+    
+    // 1. REPTILE EXPO 글자들 모이기
     .to(".convergence-target span", {
         x: 0, y: 0, z: 0,
         scale: 1,
@@ -54,18 +57,32 @@ mainVisualTimeline
         filter: "blur(0px)",
         color: "#d2ff00",
         duration: 3,
-        stagger: { 
-            each: 0.03,
-            from: "start"
-        },
+        stagger: { each: 0.03, from: "start" },
         ease: "expo.out",
-        force3D: true // 강제 하드웨어 가속 활성화
+        force3D: true
     }, "-=4.2")
+    
+    // 2. 2026 숫자들 모이기 (추가된 부분)
+    .to(".year_text span", {
+        x: 0, y: 0, z: 0,
+        scale: 1,
+        rotationX: 0, rotationY: 0,
+        opacity: 1,
+        filter: "blur(0px)",
+        color: "#fff", // 우아콘처럼 검정색으로 강조
+        duration: 2.5,
+        stagger: 0.1,
+        ease: "expo.out",
+        force3D: true
+    }, "-=3.5") // 제목 애니메이션 중간에 시작되도록 타이밍 조절
+
     .fromTo(".convergence-target",
-        { letterSpacing: "1em" }, // 시작 간격을 살짝 줄임
+        { letterSpacing: "1em" }, 
         { letterSpacing: "0.05em", duration: 3, ease: "power4.out" },
         "-=2.8"
     )
+    .to(".sub-title", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1")
+    
     .to(".sub-title", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1");
     ScrollTrigger.create({
     trigger: ".main_visual",
@@ -169,6 +186,25 @@ tabBtns.forEach(btn => {
         btn.classList.add('active');
         document.getElementById(btn.dataset.tab)?.classList.add('active');
     });
+});
+/* ==============================
+ sns_slider
+================================ */
+const swiper1 = new Swiper('.swiper1', {
+    slidesPerView: 'auto',
+    spaceBetween: 20,    
+    centeredSlides: true,  
+    loop: true,           
+    autoplay: { delay: 3000 }, 
+    pagination: { el: '.swiper-pagination', clickable: true },
+    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+});
+
+gsap.to(".marquee_inner", {
+    xPercent: -50, // 절반만큼 이동 (반복 배치 기준)
+    repeat: -1,
+    duration: 20,
+    ease: "none"
 });
 
 /* ==============================
