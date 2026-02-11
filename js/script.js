@@ -5,7 +5,7 @@ gsap.registerPlugin(ScrollTrigger);
    Header Navigation Scroll
 ================================ */
 document.querySelectorAll('.gnb a').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
+    anchor.addEventListener('click', function (e) {
         e.preventDefault(); // 기본 이동 막기
 
         const targetId = this.getAttribute('href');
@@ -22,7 +22,7 @@ document.querySelectorAll('.gnb a').forEach(anchor => {
 });
 
 /* ==============================
-   1. Main Visual (Kinetic) - 수정본
+   Main Visual (Kinetic) 
 ================================ */
 // 초기 상태 설정 (2026 포함)
 gsap.set(".convergence-target span, .year_text span", {
@@ -37,17 +37,17 @@ gsap.set(".convergence-target span, .year_text span", {
     color: "#222"
 });
 
-const mainVisualTimeline = gsap.timeline({ 
+const mainVisualTimeline = gsap.timeline({
     paused: true,
     onComplete: () => {
-        document.body.style.overflow = ""; 
+        document.body.style.overflow = "";
     }
 });
 
 mainVisualTimeline
     .to(".bg_image", { scale: 1, duration: 5, ease: "sine.inOut" }, 0)
     .to(".overlay", { opacity: 1, duration: 2.5 }, 0.5)
-    
+
     // 1. REPTILE EXPO 글자들 모이기
     .to(".convergence-target span", {
         x: 0, y: 0, z: 0,
@@ -55,13 +55,13 @@ mainVisualTimeline
         rotationX: 0, rotationY: 0,
         opacity: 1,
         filter: "blur(0px)",
-        color: "#d2ff00",
+        color: "#ffffff",
         duration: 3,
         stagger: { each: 0.03, from: "start" },
         ease: "expo.out",
         force3D: true
     }, "-=4.2")
-    
+
     // 2. 2026 숫자들 모이기 (추가된 부분)
     .to(".year_text span", {
         x: 0, y: 0, z: 0,
@@ -77,14 +77,14 @@ mainVisualTimeline
     }, "-=3.5") // 제목 애니메이션 중간에 시작되도록 타이밍 조절
 
     .fromTo(".convergence-target",
-        { letterSpacing: "1em" }, 
+        { letterSpacing: "1em" },
         { letterSpacing: "0.05em", duration: 3, ease: "power4.out" },
         "-=2.8"
     )
+    .to(".bg_video", { scale: 0.9, ease: "none" }, 0)
     .to(".sub-title", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1")
-    
     .to(".sub-title", { opacity: 1, y: 0, duration: 1.5, ease: "power4.out" }, "-=1");
-    ScrollTrigger.create({
+ScrollTrigger.create({
     trigger: ".main_visual",
     start: "top top",
     end: "+=1000", // 애니메이션 동안 머무를 거리
@@ -95,13 +95,12 @@ mainVisualTimeline
             mainVisualTimeline.play();
         }
     },
-    // 스크롤을 무시하고 애니메이션만 집중하게 하려면 이 옵션을 활용합니다.
-    fastScrollEnd: true, 
+    fastScrollEnd: true,
     preventOverScroll: true
 });
 
 /* ==============================
-   2. Marquee
+   Marquee
 ================================ */
 gsap.to(".marquee_wrapper", {
     xPercent: -50,
@@ -126,15 +125,14 @@ ScrollTrigger.create({
     }
 });
 /* ==============================
-   3. Reveal Sections & Text (수정본)
+   Reveal Sections & Text
 ================================ */
-// 1. .reveal 클래스가 붙은 섹션 전체 등장 애니메이션
 gsap.utils.toArray(".reveal").forEach(el => {
     gsap.from(el, {
-        scrollTrigger: { 
-            trigger: el, 
+        scrollTrigger: {
+            trigger: el,
             start: "top 85%",
-            toggleActions: "play none none reverse" 
+            toggleActions: "play none none reverse"
         },
         opacity: 0,
         y: 40,
@@ -142,13 +140,12 @@ gsap.utils.toArray(".reveal").forEach(el => {
         ease: "power2.out"
     });
 
-    // 섹션 내의 .section_title 애니메이션
     const title = el.querySelector('.section_title');
     if (title) {
         gsap.from(title, {
-            scrollTrigger: { 
-                trigger: title, 
-                start: "top 90%" 
+            scrollTrigger: {
+                trigger: title,
+                start: "top 90%"
             },
             y: 50,
             opacity: 0,
@@ -173,7 +170,52 @@ gsap.utils.toArray(".fade-up").forEach((item) => {
     });
 });
 /* ==============================
-   4. Tabs
+   Visitor Info Section Toggle
+================================ */
+const infoBtn = document.querySelector('.info_toggle_btn');
+const infoSection = document.getElementById('visitorInfoSection');
+
+if (infoBtn && infoSection) {
+    infoBtn.addEventListener('click', () => {
+        const isHidden = window.getComputedStyle(infoSection).display === 'none';
+
+        if (isHidden) {
+            // 보이기 (Fade In)
+            infoSection.style.display = 'block';
+            gsap.fromTo(infoSection,
+                { opacity: 0, y: 20 },
+                { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
+            );
+            infoBtn.classList.add('active');
+
+            setTimeout(() => {
+                infoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 100);
+        } else {
+            gsap.to(infoSection, {
+                opacity: 0,
+                y: 20,
+                duration: 0.4,
+                onComplete: () => {
+                    infoSection.style.display = 'none';
+                }
+            });
+            infoBtn.classList.remove('active');
+        }
+    });
+}
+gsap.from(".v_text .reveal", {
+    scrollTrigger: {
+        trigger: ".video_section",
+        start: "top 80%",
+    },
+    y: 50,
+    opacity: 0,
+    duration: 1.5,
+    ease: "power3.out"
+});
+/* ==============================
+   Tabs
 ================================ */
 const tabBtns = document.querySelectorAll('.tab_btn');
 const programLists = document.querySelectorAll('.program_list');
@@ -188,14 +230,14 @@ tabBtns.forEach(btn => {
     });
 });
 /* ==============================
- sns_slider
+    sns_slider
 ================================ */
 const swiper1 = new Swiper('.swiper1', {
     slidesPerView: 'auto',
-    spaceBetween: 20,    
-    centeredSlides: true,  
-    loop: true,           
-    autoplay: { delay: 3000 }, 
+    spaceBetween: 20,
+    centeredSlides: true,
+    loop: true,
+    autoplay: { delay: 3000 },
     pagination: { el: '.swiper-pagination', clickable: true },
     navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
 });
@@ -208,13 +250,12 @@ gsap.to(".marquee_inner", {
 });
 
 /* ==============================
-   5. Orbital Partners (완종 수정본)
+   Orbital Partners
 ================================ */
 document.querySelectorAll(".sub_partner").forEach((item, i, arr) => {
     const data = { angle: (i / arr.length) * Math.PI * 2 };
     const radius = 230; // 궤도 선 반지름과 일치시킴
 
-    // 개별 애니메이션 인스턴스 생성
     const orbitAnimation = gsap.to(data, {
         angle: `+=${Math.PI * 2}`,
         duration: 25 + i * 3, // 너무 빠르지 않게 조정
@@ -228,7 +269,6 @@ document.querySelectorAll(".sub_partner").forEach((item, i, arr) => {
         }
     });
 
-    // 호버 시 애니메이션 멈추고 컬러 표시
     item.addEventListener("mouseenter", () => {
         orbitAnimation.pause(); // 애니메이션 일시정지
     });
@@ -246,10 +286,10 @@ const targetDate = new Date("May 23, 2026 10:00:00").getTime();
 setInterval(() => {
     const gap = targetDate - Date.now();
 
-    days.innerText    = Math.floor(gap / 86400000);
-    hours.innerText   = Math.floor((gap / 3600000) % 24);
-    minutes.innerText= Math.floor((gap / 60000) % 60);
-    seconds.innerText= Math.floor((gap / 1000) % 60);
+    days.innerText = Math.floor(gap / 86400000);
+    hours.innerText = Math.floor((gap / 3600000) % 24);
+    minutes.innerText = Math.floor((gap / 60000) % 60);
+    seconds.innerText = Math.floor((gap / 1000) % 60);
 }, 1000);
 
 gsap.to(".progress_fill", {
@@ -285,12 +325,10 @@ document.querySelectorAll('.faq_q').forEach(q => {
         const parent = q.parentElement;
         const wasActive = parent.classList.contains('active');
 
-        // 모든 FAQ 아이템 닫기
         document.querySelectorAll('.faq_item').forEach(item => {
             item.classList.remove('active');
         });
 
-        // 클릭한 항목이 이전에 닫혀있었다면 열기 (이미 열려있었다면 위에서 닫힌 상태 유지)
         if (!wasActive) {
             parent.classList.add('active');
         }
@@ -304,7 +342,7 @@ document.querySelectorAll(".i_card").forEach(card => {
     card.addEventListener("mousemove", e => {
         const r = card.getBoundingClientRect();
         const x = e.clientX - r.left;
-        const y = e.clientY - r.top; 
+        const y = e.clientY - r.top;
 
         gsap.to(card, {
             rotateX: (y - r.height / 2) / 10,
@@ -335,56 +373,9 @@ document.querySelectorAll('header a[href^="#"]').forEach(anchor => {
         if (target) {
             gsap.to(window, {
                 duration: 1,
-                scrollTo: { y: target, offsetY: 70 }, // 헤더 높이만큼 오프셋
+                scrollTo: { y: target, offsetY: 70 },
                 ease: "power3.inOut"
             });
         }
     });
-});
-/* ==============================
-   Visitor Info Section Toggle
-================================ */
-const infoBtn = document.querySelector('.info_toggle_btn');
-const infoSection = document.getElementById('visitorInfoSection');
-
-if (infoBtn && infoSection) {
-    infoBtn.addEventListener('click', () => {
-        const isHidden = window.getComputedStyle(infoSection).display === 'none';
-
-        if (isHidden) {
-            // 보이기 (Fade In)
-            infoSection.style.display = 'block';
-            gsap.fromTo(infoSection, 
-                { opacity: 0, y: 20 }, 
-                { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
-            );
-            infoBtn.classList.add('active');
-            
-            // 정보가 나타난 곳으로 부드럽게 이동
-            setTimeout(() => {
-                infoSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }, 100);
-        } else {
-            // 숨기기 (Fade Out)
-            gsap.to(infoSection, { 
-                opacity: 0, 
-                y: 20, 
-                duration: 0.4, 
-                onComplete: () => {
-                    infoSection.style.display = 'none';
-                } 
-            });
-            infoBtn.classList.remove('active');
-        }
-    });
-}
-gsap.from(".v_text .reveal", {
-    scrollTrigger: {
-        trigger: ".video_section",
-        start: "top 80%",
-    },
-    y: 50,
-    opacity: 0,
-    duration: 1.5,
-    ease: "power3.out"
 });
