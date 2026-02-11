@@ -230,6 +230,37 @@ tabBtns.forEach(btn => {
     });
 });
 /* ==============================
+    highlight
+================================ */
+
+gsap.utils.toArray('.h_item').forEach((item, i) => {
+    const isLeft = item.classList.contains('left_slide');
+    
+    gsap.from(item, {
+        scrollTrigger: {
+            trigger: item,
+            start: "top 85%", // 화면 85% 지점에 닿으면 시작
+            toggleActions: "play none none reverse"
+        },
+        x: isLeft ? -150 : 150, // 왼쪽은 왼쪽에서, 오른쪽은 오른쪽에서
+        opacity: 0,
+        duration: 1.5,
+        ease: "power3.out"
+    });
+
+    // 영상 안의 텍스트도 별도로 살짝 늦게 등장시키면 더 예쁩니다
+    gsap.from(item.querySelector('.h_txt'), {
+        scrollTrigger: {
+            trigger: item,
+            start: "top 80%",
+        },
+        y: 30,
+        opacity: 0,
+        duration: 1,
+        delay: 0.5
+    });
+});
+/* ==============================
     sns_slider
 ================================ */
 const swiper1 = new Swiper('.swiper1', {
