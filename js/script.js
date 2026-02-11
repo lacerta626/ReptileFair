@@ -290,9 +290,10 @@ const swiper1 = new Swiper('.swiper1', {
 gsap.to(".marquee_inner", {
     xPercent: -50, // 절반만큼 이동 (반복 배치 기준)
     repeat: -1,
-    duration: 20,
+    duration: 30,
     ease: "none"
 });
+
 
 /* ==============================
    Orbital Partners

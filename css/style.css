@@ -175,7 +175,8 @@
 .sub_partner:hover {border-color:#d2ff00;background:#000;}
 .sub_partner img{width:100%;filter:grayscale(1);transition:.3s}
 .sub_partner:hover img{filter:grayscale(0)}
-
+.p0 img{scale: 1.5;}
+.p3 img{scale: 0.8;}
 /* ============================= */
 /* TICKETING */
 /* ============================= */
